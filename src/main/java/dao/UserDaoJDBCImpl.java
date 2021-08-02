@@ -25,7 +25,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
                 try {
                     connection.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    //ignore
                 }
             }
         }
@@ -50,7 +50,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
                 try {
                     connection.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    //ignore
                 }
             }
         }
@@ -73,7 +73,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
                 try {
                     connection.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    //ignore
                 }
             }
         }
@@ -126,6 +126,14 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    //ignore
+                }
+            }
         }
         return userList;
     }
