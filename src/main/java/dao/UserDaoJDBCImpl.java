@@ -20,10 +20,9 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     @Override
     public void cleanUsersTable() {
         String sql = "DELETE FROM USERS";
-
         try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.executeUpdate();
             System.out.println("Таблица успешно отчищенна!");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -35,8 +34,8 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
         String sql = "CREATE TABLE IF NOT EXISTS USERS (id BIGINT AUTO_INCREMENT PRIMARY KEY, NAME VARCHAR(50) NOT NULL," +
                 " LASTNAME VARCHAR(50) NOT NULL, AGE TINYINT NOT NULL)";
         try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.executeUpdate();
             System.out.println("Таблица успешно создана!");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -48,8 +47,8 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
         String sql = "DROP TABLE IF EXISTS USERS";
 
         try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.executeUpdate();
             System.out.println("Таблица удалена!");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -79,8 +78,8 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
         String sql = "SELECT * FROM USERS";
 
         try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
                 User user = new User();
