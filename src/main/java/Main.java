@@ -24,5 +24,7 @@ public class Main {
         us.cleanUsersTable();
 
         us.dropUsersTable();
+        us.getUserDao().closeConnection();
+
     }
 }
