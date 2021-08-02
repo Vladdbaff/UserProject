@@ -60,7 +60,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     public void dropUserTable() {
         Connection connection = new Util().getConnection();
 
-        String sql = "DROP TABLE USERS";
+        String sql = "DROP TABLE IF EXISTS USERS";
 
         try {
             Statement statement = connection.createStatement();
