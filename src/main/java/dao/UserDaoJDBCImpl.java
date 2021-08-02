@@ -1,15 +1,15 @@
-package Dao;
+package dao;
 
-import entity.*;
+import model.*;
 import java.util.*;
-
+import util.Util;
 
 import java.sql.*;
 
-public class UserDaoImpl extends Util implements UserDao {
+public class UserDaoJDBCImpl extends Util implements UserDao {
 
     @Override
-    public void deleteAll() {
+    public void cleanUsersTable() {
         Connection connection = new Util().getConnection();
         String sql = "DELETE FROM USERS";
 
@@ -32,7 +32,7 @@ public class UserDaoImpl extends Util implements UserDao {
     }
 
     @Override
-    public void createTable()  {
+    public void createUserTable()  {
         Connection connection = new Util().getConnection();
 
         String sql = "CREATE TABLE IF NOT EXISTS USERS (id BIGINT AUTO_INCREMENT PRIMARY KEY, NAME VARCHAR(50) NOT NULL," +
@@ -57,13 +57,13 @@ public class UserDaoImpl extends Util implements UserDao {
     }
 
     @Override
-    public void deleteTable() {
+    public void dropUserTable() {
         Connection connection = new Util().getConnection();
-        Statement statement = null;
+
         String sql = "DROP TABLE USERS";
 
         try {
-            statement = connection.createStatement();
+            Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
             System.out.println("Таблица удалена!");
         } catch (SQLException e) {
@@ -80,7 +80,7 @@ public class UserDaoImpl extends Util implements UserDao {
     }
 
     @Override
-    public void add(User user)  {
+    public void saveUser(User user)  {
         Connection connection = new Util().getConnection();
         String sql = "INSERT INTO USERS (ID, NAME, LASTNAME, AGE) VALUES (?, ?, ?, ?)";
         try {
@@ -163,9 +163,8 @@ public class UserDaoImpl extends Util implements UserDao {
     }
 
     @Override
-    public void remove(long id) {
-        Connection connection = getConnection();
-
+    public void  removeUserById(long id) {
+        Connection connection = new Util().getConnection();
         String sql = "DELETE FROM USERS WERE ID = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);

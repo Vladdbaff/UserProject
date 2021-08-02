@@ -1,15 +1,21 @@
 package service;
 
-import Dao.UserDaoImpl;
-import entity.User;
+import model.User;
 
 import java.util.List;
 
 public interface UserService {
-    void getTable();
-    void putUser(User user);
-    List<User> getUsers();
+    void createUsersTable();
+
+    void saveUser(User user);
+
+    List<User> getAllUsers();
+
     User getUser(long id);
-    void deleteAllUsers();
-    void dropTable();
+
+    void cleanUsersTable();
+
+    void dropUsersTable();
+
+    void removeUserById(long id);
 }

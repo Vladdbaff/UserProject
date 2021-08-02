@@ -1,24 +1,24 @@
 package service;
 
-import Dao.UserDaoImpl;
-import entity.User;
+import dao.UserDaoJDBCImpl;
+import model.User;
 
 import java.util.List;
 
 public class UserServiceImpl implements UserService{
-    private UserDaoImpl userDao = new UserDaoImpl();
+    private UserDaoJDBCImpl userDao = new UserDaoJDBCImpl();
     @Override
-    public void getTable() {
-        userDao.createTable();
+    public void createUsersTable() {
+        userDao.createUserTable();
     }
 
     @Override
-    public void putUser(User user) {
-        userDao.add(user);
+    public void saveUser(User user) {
+        userDao.saveUser(user);
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }
 
@@ -28,12 +28,19 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void deleteAllUsers() {
-        userDao.deleteAll();
+    public void cleanUsersTable() {
+        userDao.cleanUsersTable();
     }
 
     @Override
-    public void dropTable() {
-        userDao.deleteTable();
+    public void dropUsersTable() {
+        userDao.dropUserTable();
     }
+
+    @Override
+    public void removeUserById(long id) {
+        userDao.removeUserById(id);
+    }
+
+
 }
