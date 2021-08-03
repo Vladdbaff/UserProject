@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserService {
 
-    UserDaoJDBCImpl getUserDao();
+    //UserDaoJDBCImpl getUserDao();
 
     void createUsersTable();
 
