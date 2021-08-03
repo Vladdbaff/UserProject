@@ -56,16 +56,16 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     }
 
     @Override
-    public void saveUser(User user)  {
-        String sql = "INSERT INTO USERS (ID, NAME, LASTNAME, AGE) VALUES (?, ?, ?, ?)";
+    public void saveUser(String name, String lastName, byte age)  {
+        String sql = "INSERT INTO USERS (NAME, LASTNAME, AGE) VALUES (?, ?, ?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setLong(1, user.getId());
-            statement.setString(2, user.getName());
-            statement.setString(3, user.getLastName());
-            statement.setByte(4, user.getAge());
+            //statement.setLong(1, user.getId());
+            statement.setString(1, name);
+            statement.setString(2, lastName);
+            statement.setByte(3, age);
             statement.executeUpdate();
-            System.out.println("User с именем – " + user.getName() + " добавлен в базу данных ");
+            System.out.println("User с именем – " + name + " добавлен в базу данных ");
         } catch (SQLException e) {
             System.err.println("Неудачное добавление элемента");
             e.printStackTrace();
@@ -120,7 +120,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     }
     @Override
     public void  removeUserById(long id) {
-        String sql = "DELETE FROM USERS WERE ID = ?";
+        String sql = "DELETE FROM USERS WHERE ID = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setLong(1, id);
