@@ -11,7 +11,7 @@ public interface UserService {
 
     void createUsersTable();
 
-    void saveUser(User user);
+    void saveUser(String name, String lastName, byte age);
 
     List<User> getAllUsers();
 

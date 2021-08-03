@@ -10,7 +10,7 @@ public interface UserDao {
 
     void dropUserTable();
 
-    void saveUser(User user);
+    void saveUser(String name, String lastName, byte age);
 
     List<User> getAllUsers();
 
