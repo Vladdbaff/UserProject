@@ -43,7 +43,9 @@ public class UserDaoHibernateImpl extends Util implements UserDao{
             transaction.commit();
             System.out.println("Таблица создана!");
         } catch (HibernateException e) {
-
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
 
     }
@@ -83,12 +85,11 @@ public class UserDaoHibernateImpl extends Util implements UserDao{
     @Override
     public List<User> getAllUsers() {
         List<User> users = null;
-        String sql = "SELECT * FROM USERS";
+        String sql = "FROM User";
         try(Session session = getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            users = (List<User>)session.createSQLQuery(sql).addEntity(User.class).list();
+            users = session.createQuery(sql, User.class).list();
             transaction.commit();
-            return users;
         } catch (Exception e) {
             if(transaction != null) {
                 transaction.rollback();

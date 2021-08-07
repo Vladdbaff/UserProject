@@ -43,24 +43,22 @@ public class Util  {
             try {
                 Configuration configuration = new Configuration();
 
-                Properties settings = new Properties();
-                settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-                settings.put(Environment.URL, "jdbc:mysql://localhost:3306/mydbtest");
-                settings.put(Environment.USER, "root");
-                settings.put(Environment.PASS, "root");
-                settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
-                settings.put(Environment.SHOW_SQL, "true");
-                settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-                settings.put(Environment.HBM2DDL_AUTO, "update");
-
-                configuration.setProperties(settings);
+                //Properties settings = new Properties();
+                configuration.setProperty(Environment.DRIVER, "com.mysql.cj.jdbc.Driver")
+                             .setProperty(Environment.URL, "jdbc:mysql://localhost:3306/mydbtest")
+                             .setProperty(Environment.USER, "root")
+                             .setProperty(Environment.PASS, "root")
+                             .setProperty(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect")
+                             .setProperty(Environment.SHOW_SQL, "true")
+                             .setProperty(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread")
+                             .setProperty(Environment.HBM2DDL_AUTO, "none");
 
                 configuration.addAnnotatedClass(User.class);
 
-                ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                        .applySettings(configuration.getProperties()).build();
+                /*ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                        .applySettings(configuration.getProperties()).build();*/
 
-                sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+                sessionFactory = configuration.buildSessionFactory();
             } catch (Exception e) {
                 e.printStackTrace();
             }
