@@ -13,11 +13,12 @@ public class Util {
 
     public Connection getConnection() {
         try {
-            Driver driver = new com.mysql.cj.jdbc.Driver();
-            DriverManager.registerDriver(driver);
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            //Driver driver = new com.mysql.cj.jdbc.Driver();
+            //DriverManager.registerDriver(driver);
             connection = DriverManager.getConnection(URL, LOGIN, PASSWORD);
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             System.err.println("Соединение не установленно");
         }
         return connection;
