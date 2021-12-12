@@ -7,7 +7,7 @@ import util.Util;
 import java.sql.*;
 
 public class UserDaoJDBCImpl extends Util implements UserDao {
-    private Connection connection = getConnection();
+    private final Connection connection = getConnection();
 
 
     @Override

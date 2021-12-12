@@ -1,14 +1,15 @@
 package service;
 
+import dao.UserDao;
 import dao.UserDaoJDBCImpl;
 import model.User;
 
 import java.util.List;
 
 public class UserServiceImpl implements UserService{
-    private UserDaoJDBCImpl userDao = new UserDaoJDBCImpl();
+    private final UserDao userDao = new UserDaoJDBCImpl();
 
-    public UserDaoJDBCImpl getUserDao() {
+    public UserDao getUserDao() {
         return userDao;
     }
 
