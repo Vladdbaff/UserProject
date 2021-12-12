@@ -9,13 +9,6 @@ import java.sql.*;
 public class UserDaoJDBCImpl extends Util implements UserDao {
     private Connection connection = getConnection();
 
-    public void closeConnection(){
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void cleanUsersTable() {
@@ -23,7 +16,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.executeUpdate();
-            System.out.println("Таблица успешно отчищенна!");
+            System.out.println("Таблица успешно отчищена!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -45,7 +38,6 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     @Override
     public void dropUserTable() {
         String sql = "DROP TABLE IF EXISTS USERS";
-
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.executeUpdate();
@@ -78,14 +70,14 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet rs = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
 
-            while (rs.next()) {
+            while (resultSet.next()) {
                 User user = new User();
-                user.setId(rs.getInt("id"));
-                user.setName(rs.getString("name"));
-                user.setLastName(rs.getString("lastname"));
-                user.setAge(rs.getByte("age"));
+                user.setId(resultSet.getInt("id"));
+                user.setName(resultSet.getString("name"));
+                user.setLastName(resultSet.getString("lastname"));
+                user.setAge(resultSet.getByte("age"));
 
                 userList.add(user);
             }
@@ -104,12 +96,12 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setLong(1, id);
 
-            ResultSet rs = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
 
-            user.setId(rs.getInt("id"));
-            user.setName(rs.getString("name"));
-            user.setLastName(rs.getString("lastname"));
-            user.setAge(rs.getByte("age"));
+            user.setId(resultSet.getInt("id"));
+            user.setName(resultSet.getString("name"));
+            user.setLastName(resultSet.getString("lastname"));
+            user.setAge(resultSet.getByte("age"));
 
             statement.executeUpdate();
         }catch (SQLException e) {
