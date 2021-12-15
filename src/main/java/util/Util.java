@@ -2,21 +2,20 @@ package util;
 
 import java.sql.*;
 
-public class Util {
-    private final String URL = "jdbc:mysql://localhost:3306/mydbtest";
-    private final String LOGIN = "root";
-    private final String PASSWORD = "root";
-    private Connection connection;
+public abstract class Util {
+    private static final String URL = "jdbc:mysql://localhost:3306/mydbtest";
+    private static final String LOGIN = "root";
+    private static final String PASSWORD = "root";
+    private static Connection connection;
 
     public Util() {
     }
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            //Driver driver = new com.mysql.cj.jdbc.Driver();
-            //DriverManager.registerDriver(driver);
             connection = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+            connection.setAutoCommit(false);
 
         } catch (SQLException | ClassNotFoundException e) {
             System.err.println("Соединение не установленно");
@@ -24,7 +23,7 @@ public class Util {
         return connection;
     }
 
-    public void closeConnection(){
+    public static void closeConnection(){
         try {
             connection.close();
         } catch (SQLException e) {

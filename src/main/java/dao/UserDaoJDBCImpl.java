@@ -6,13 +6,13 @@ import util.Util;
 
 import java.sql.*;
 
-public class UserDaoJDBCImpl extends Util implements UserDao {
-    private final Connection connection = getConnection();
+public class UserDaoJDBCImpl implements UserDao {
+    private final Connection connection = Util.getConnection();
 
 
     @Override
     public void cleanUsersTable() {
-        String sql = "DELETE FROM USERS";
+        String sql = "DELETE FROM users";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.executeUpdate();
@@ -24,7 +24,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
 
     @Override
     public void createUserTable()  {
-        String sql = "CREATE TABLE IF NOT EXISTS USERS (id BIGINT AUTO_INCREMENT PRIMARY KEY, NAME VARCHAR(50) NOT NULL," +
+        String sql = "CREATE TABLE IF NOT EXISTS users (id BIGINT AUTO_INCREMENT PRIMARY KEY, NAME VARCHAR(50) NOT NULL," +
                 " LASTNAME VARCHAR(50) NOT NULL, AGE TINYINT NOT NULL)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -37,7 +37,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
 
     @Override
     public void dropUserTable() {
-        String sql = "DROP TABLE IF EXISTS USERS";
+        String sql = "DROP TABLE IF EXISTS users";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.executeUpdate();
@@ -49,7 +49,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
 
     @Override
     public void saveUser(String name, String lastName, byte age)  {
-        String sql = "INSERT INTO USERS (NAME, LASTNAME, AGE) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO users (NAME, LASTNAME, AGE) VALUES (?, ?, ?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, name);
@@ -57,16 +57,21 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
             statement.setByte(3, age);
             statement.executeUpdate();
             System.out.println("User с именем – " + name + " добавлен в базу данных ");
+            connection.commit();
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                //ignore
+            }
             System.err.println("Неудачное добавление элемента");
-            e.printStackTrace();
         }
     }
 
     @Override
     public List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
-        String sql = "SELECT * FROM USERS";
+        String sql = "SELECT * FROM users";
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -90,7 +95,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     @Override
     public User getUser(long id) {
 
-        String sql = "SELECT * FROM USERS WHERE ID = ?";
+        String sql = "SELECT * FROM users WHERE ID = ?";
         User user = new User();
         try{
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -111,13 +116,18 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     }
     @Override
     public void  removeUserById(long id) {
-        String sql = "DELETE FROM USERS WHERE ID = ?";
+        String sql = "DELETE FROM users WHERE ID = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setLong(1, id);
             statement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 }

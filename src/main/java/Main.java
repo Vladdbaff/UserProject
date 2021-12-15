@@ -2,6 +2,7 @@
 import model.*;
 import service.UserService;
 import service.UserServiceImpl;
+import util.Util;
 
 import java.util.*;
 
@@ -21,6 +22,6 @@ public class Main {
         userService.cleanUsersTable();
 
         userService.dropUsersTable();
-        userService.getUserDao().closeConnection();
+        Util.closeConnection();
     }
 }
