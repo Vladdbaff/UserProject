@@ -14,24 +14,36 @@ public class UserDaoJDBCImpl implements UserDao {
     public void cleanUsersTable() {
         String sql = "DELETE FROM users";
         try {
+            connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.executeUpdate();
+            connection.commit();
             System.out.println("Таблица успешно отчищена!");
         } catch (SQLException e) {
-            e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
     @Override
     public void createUserTable()  {
-        String sql = "CREATE TABLE IF NOT EXISTS users (id BIGINT AUTO_INCREMENT PRIMARY KEY, NAME VARCHAR(50) NOT NULL," +
-                " LASTNAME VARCHAR(50) NOT NULL, AGE TINYINT NOT NULL)";
+        String sql = "CREATE TABLE IF NOT EXISTS users (id BIGINT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL," +
+                " lastname VARCHAR(50) NOT NULL, age TINYINT NOT NULL)";
         try {
+            connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.executeUpdate();
+            connection.commit();
             System.out.println("Таблица успешно создана!");
         } catch (SQLException e) {
-            e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -39,18 +51,25 @@ public class UserDaoJDBCImpl implements UserDao {
     public void dropUserTable() {
         String sql = "DROP TABLE IF EXISTS users";
         try {
+            connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.executeUpdate();
+            connection.commit();
             System.out.println("Таблица удалена!");
         } catch (SQLException e) {
-            e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
     @Override
     public void saveUser(String name, String lastName, byte age)  {
-        String sql = "INSERT INTO users (NAME, LASTNAME, AGE) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO users (name, lastname, age) VALUES (?, ?, ?)";
         try {
+            connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, name);
             statement.setString(2, lastName);
@@ -95,7 +114,7 @@ public class UserDaoJDBCImpl implements UserDao {
     @Override
     public User getUser(long id) {
 
-        String sql = "SELECT * FROM users WHERE ID = ?";
+        String sql = "SELECT * FROM users WHERE id = ?";
         User user = new User();
         try{
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -116,15 +135,16 @@ public class UserDaoJDBCImpl implements UserDao {
     }
     @Override
     public void  removeUserById(long id) {
-        String sql = "DELETE FROM users WHERE ID = ?";
+        String sql = "DELETE FROM users WHERE id = ?";
         try {
+            connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setLong(1, id);
             statement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             try {
-                connection.rollback();
+               connection.rollback();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }

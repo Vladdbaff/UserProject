@@ -15,7 +15,6 @@ public abstract class Util {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(URL, LOGIN, PASSWORD);
-            connection.setAutoCommit(false);
 
         } catch (SQLException | ClassNotFoundException e) {
             System.err.println("Соединение не установленно");
