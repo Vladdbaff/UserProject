@@ -4,6 +4,7 @@ import dao.UserDao;
 import dao.UserDaoJDBCImpl;
 import model.User;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class UserServiceImpl implements UserService{
@@ -14,12 +15,12 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void createUsersTable() {
+    public void createUsersTable() throws SQLException {
         userDao.createUserTable();
     }
 
     @Override
-    public void saveUser(String name, String lastName, byte age) {
+    public void saveUser(String name, String lastName, byte age) throws SQLException {
         userDao.saveUser(name, lastName, age);
     }
 
@@ -34,17 +35,17 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void cleanUsersTable() {
+    public void cleanUsersTable() throws SQLException {
         userDao.cleanUsersTable();
     }
 
     @Override
-    public void dropUsersTable() {
+    public void dropUsersTable() throws SQLException {
         userDao.dropUserTable();
     }
 
     @Override
-    public void removeUserById(long id) {
+    public void removeUserById(long id) throws SQLException {
         userDao.removeUserById(id);
     }
 

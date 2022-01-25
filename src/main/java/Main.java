@@ -4,11 +4,12 @@ import service.UserService;
 import service.UserServiceImpl;
 import util.Util;
 
+import java.sql.SQLException;
 import java.util.*;
 
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         UserService userService = new UserServiceImpl();
         userService.createUsersTable();
 
